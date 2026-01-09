@@ -140,11 +140,14 @@ def forms_get_form(user_id: str, form_id: str):
 
     form = service.forms().get(formId=form_id).execute()
 
+    info = form.get("info", {})
+
     return {
-        "formId": form["formId"],
-        "title": form["info"]["title"],
-        "documentTitle": form["info"].get("documentTitle"),
+        "formId": form.get("formId"),
+        "title": info.get("title") or info.get("documentTitle"),
+        "documentTitle": info.get("documentTitle"),
     }
+
 
 
 def forms_list_responses(user_id: str, form_id: str, max_results: int = 5):
